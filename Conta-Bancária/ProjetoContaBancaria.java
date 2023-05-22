@@ -20,62 +20,55 @@ public class ProjetoContaBancaria {
 
         System.out.println("Conta bancária criada com sucesso!");
 
-        while(contaBancaria.getrepetirOperacao().equalsIgnoreCase("r")) {
+    while(contaBancaria.getrepetirOperacao().equalsIgnoreCase("r")) {
 
-            System.out.println("Escolha uma das operações: ");
-            System.out.println("Depositar: Digite 1\nSacar: Digite 2\nExibir extrato bancário: Digite 3");
-            contaBancaria.setrealizarOperacaoEscolhida(scan.nextByte());
+        System.out.println("Escolha uma das operações: ");
+        System.out.println("Depositar: Digite 1\nSacar: Digite 2\nExibir extrato bancário: Digite 3");
+        contaBancaria.setrealizarOperacaoEscolhida(scan.nextByte());
 
-        switch (contaBancaria.getoperacaoEscolhida()) {
+    switch (contaBancaria.getoperacaoEscolhida()) {
 
-            case 1:
-                System.out.println("Informe o valor do deposito: ");
-                contaBancaria.setdepositarNovoValor(scan.nextDouble());
+        case 1:
+            System.out.println("Informe o valor do deposito: ");
+            contaBancaria.setdepositarNovoValor(scan.nextDouble());
 
-                System.out.printf("Depósito de R$ %.2f realizado com sucesso.",
-                contaBancaria.gethistoricoUltimoDeposito());
+            System.out.printf("Depósito de R$ %.2f realizado com sucesso.",
+            contaBancaria.gethistoricoUltimoDeposito());
+        break;
 
-            break;
+        case 2:
+            System.out.println("Informe o valor do saque a ser realizado: ");
+            contaBancaria.setrealizarSaque(scan.nextDouble());
 
-            case 2:
-
-                System.out.println("Informe o valor do saque a ser realizado: ");
+        do {
+            if (contaBancaria.getrealizarSaque() > contaBancaria.getsaldoContaBancaria()) {
+                System.out.println("Saldo insuficiente para realizar a operação!\nInforme um valor válido: ");
                 contaBancaria.setrealizarSaque(scan.nextDouble());
 
-            do {
+            } else if (contaBancaria.getrealizarSaque() < 1) {
+                System.out.println("Não é possível realizar um saque abaixo de R$ 1,00!\nInforme um valor válido: ");
+                contaBancaria.setrealizarSaque(scan.nextDouble());
 
-                if (contaBancaria.getrealizarSaque() > contaBancaria.getsaldoContaBancaria()) {
-                    System.out.println("Saldo insuficiente para realizar a operação!\nInforme um valor válido: ");
-                    contaBancaria.setrealizarSaque(scan.nextDouble());
+            } else if (contaBancaria.getrealizarSaque() > 5000) {
+                System.out.println("Valor do saque acima do permitido (R$ 5000,00)!\nInforme um valor válido: ");
+                contaBancaria.setrealizarSaque(scan.nextDouble());
 
-                } else if (contaBancaria.getrealizarSaque() < 1) {
-                    System.out.println("Não é possível realizar um saque abaixo de R$ 1,00!\nInforme um valor válido: ");
-                    contaBancaria.setrealizarSaque(scan.nextDouble());
+            } else {
+                System.out.printf("Saque de R$ %.2f realizado com sucesso.", contaBancaria.getrealizarSaque());
+            }
 
-                } else if (contaBancaria.getrealizarSaque() > 5000) {
-                    System.out.println("Valor do saque acima do permitido (R$ 5000,00)!\nInforme um valor válido: ");
-                    contaBancaria.setrealizarSaque(scan.nextDouble());
+        } while (contaBancaria.getrealizarSaque() > contaBancaria.getsaldoContaBancaria() || contaBancaria.getrealizarSaque() < 1);
 
-                } else {
-                    System.out.printf("Saque de R$ %.2f realizado com sucesso.", contaBancaria.getrealizarSaque());
-                }
+                System.out.printf("Saque de R$ %.2f realizado com sucesso.", contaBancaria.getrealizarSaque());
+            break;
 
-            } while (contaBancaria.getrealizarSaque() > contaBancaria.getsaldoContaBancaria()
-                    || contaBancaria.getrealizarSaque() < 1);
-
-                    System.out.printf("Saque de R$ %.2f realizado com sucesso.", contaBancaria.getrealizarSaque());
-
-                break;
-
-            case 3: 
-                 
+        case 3:    
                 System.out.printf("%s\nNúmero da Conta: %d\nSeu saldo é de: R$ %.2f",contaBancaria.getnomeCliente(), contaBancaria.getnumeroContaBancaria(), contaBancaria.getsaldoContaBancaria());
             }
                 System.out.println("\nPara realizar outra operação digite 'R':");
                 scan.nextLine();
                 contaBancaria.setrepetirOperacao(scan.nextLine());
             }
-
         scan.close();
     }
 }
